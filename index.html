@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>جامعتي — منصة التعليم الجامعي</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap');
+:root {
+  --ink:#0f1117; --deep:#1a1f2e; --gold:#c9a84c; --gold-light:#e8c97e;
+  --cream:#f7f4ef; --muted:#6b7280; --border:#e2ddd6;
+  --success:#2d7a4f; --danger:#c0392b; --sw:260px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Cairo',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden}
+
+/* ── LANDING ── */
+#landing{min-height:100vh;display:flex;flex-direction:column}
+.lnav{display:flex;align-items:center;justify-content:space-between;padding:18px 40px;background:var(--deep);position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-mark{width:40px;height:40px;background:linear-gradient(135deg,var(--gold),var(--gold-light));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:900;color:var(--deep)}
+.logo-text{font-size:20px;font-weight:700;color:#fff}
+.logo-sub{font-size:10px;color:var(--gold-light);display:block;margin-top:-4px}
+.nav-links{display:flex;gap:8px}
+
+.btn{padding:9px 20px;border-radius:8px;border:none;cursor:pointer;font-family:'Cairo',sans-serif;font-size:13px;font-weight:600;transition:all .2s;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.btn-ghost{background:transparent;color:#ccc;border:1px solid #3a3f50}.btn-ghost:hover{background:#2a2f40;color:#fff}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--deep)}.btn-gold:hover{opacity:.9;transform:translateY(-1px);box-shadow:0 4px 16px rgba(201,168,76,.4)}
+.btn-danger{background:var(--danger);color:#fff}.btn-danger:hover{background:#a93226}
+.btn-success{background:var(--success);color:#fff}.btn-success:hover{background:#236040}
+.btn-outline{background:transparent;border:1.5px solid var(--gold);color:var(--gold)}.btn-outline:hover{background:var(--gold);color:var(--deep)}
+.btn-sm{padding:5px 13px;font-size:12px}
+
+.hero{flex:1;background:var(--deep);display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 24px;position:relative;overflow:hidden}
+.hero::before{content:'جامعتي';position:absolute;font-size:300px;font-weight:900;color:rgba(201,168,76,.04);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap}
+.hero-content{position:relative;z-index:2;max-width:680px}
+.hero-badge{display:inline-block;background:rgba(201,168,76,.15);color:var(--gold-light);border:1px solid rgba(201,168,76,.3);padding:5px 16px;border-radius:50px;font-size:12px;margin-bottom:24px}
+.hero h1{font-size:clamp(34px,6vw,68px);font-weight:900;color:#fff;line-height:1.1;margin-bottom:16px}
+.hero h1 span{color:var(--gold)}
+.hero p{font-size:16px;color:#9aa3b8;line-height:1.8;margin-bottom:36px;font-weight:300}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+.feats{background:#fff;padding:56px 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:28px;max-width:1080px;margin:0 auto;width:100%}
+.feat{text-align:center;padding:28px 20px}
+.feat-icon{width:52px;height:52px;background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(201,168,76,.05));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 14px}
+.feat h3{font-size:15px;font-weight:700;margin-bottom:6px}
+.feat p{font-size:12px;color:var(--muted);line-height:1.7}
+
+/* ── MODALS ── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(10,12,20,.78);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(4px);overflow-y:auto}
+.overlay.on{display:flex}
+.modal{background:#fff;border-radius:20px;padding:36px;width:100%;max-width:440px;margin:20px auto;box-shadow:0 24px 80px rgba(0,0,0,.3);animation:pop .22s ease;position:relative}
+@keyframes pop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+.modal h2{font-size:20px;font-weight:700;margin-bottom:4px}
+.modal .sub{font-size:12px;color:var(--muted);margin-bottom:24px}
+.fg{margin-bottom:16px}
+.fg label{display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:#444}
+.fg input,.fg select,.fg textarea{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'Cairo',sans-serif;font-size:13px;color:var(--ink);background:var(--cream);outline:none;transition:border-color .2s}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--gold);background:#fff}
+.fg textarea{resize:vertical;min-height:80px}
+.modal .btn{width:100%;justify-content:center;padding:12px;font-size:14px}
+.mcls{position:absolute;top:14px;left:14px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted)}.mcls:hover{color:var(--ink)}
+.tlink{display:block;text-align:center;margin-top:14px;font-size:12px;color:var(--muted)}
+.tlink a{color:var(--gold);font-weight:600;cursor:pointer}
+
+/* level buttons */
+.lv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.lv-btn{padding:9px 5px;border:2px solid var(--border);border-radius:9px;background:var(--cream);cursor:pointer;font-family:'Cairo',sans-serif;font-size:12px;font-weight:600;color:var(--muted);transition:all .18s;text-align:center}
+.lv-btn:hover{border-color:var(--gold);color:var(--ink)}
+.lv-btn.sel{border-color:var(--gold);background:rgba(201,168,76,.12);color:var(--ink)}
+.sm-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+
+/* ── APP ── */
+#app{display:none;min-height:100vh}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:var(--sw);background:var(--deep);color:#fff;display:flex;flex-direction:column;position:fixed;right:0;top:0;height:100vh;z-index:50;overflow-y:auto}
+.sb-logo{padding:22px 18px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sb-user{padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px}
+.av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-light));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:var(--deep);flex-shrink:0}
+.ui-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ui-role{font-size:11px;color:var(--gold-light);font-weight:300}
+.lchip{display:inline-flex;align-items:center;padding:2px 9px;border-radius:50px;font-size:10px;font-weight:700;background:rgba(201,168,76,.2);color:var(--gold-light);margin-top:3px}
+.sb-nav{flex:1;padding:14px 10px}
+.ns{margin-bottom:22px}
+.ns-title{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:#5a6280;padding:0 8px;margin-bottom:7px}
+.ni{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:9px;font-size:13px;font-weight:500;color:#9aa3b8;cursor:pointer;transition:all .14s;margin-bottom:2px}
+.ni:hover{background:rgba(255,255,255,.07);color:#fff}
+.ni.on{background:rgba(201,168,76,.15);color:var(--gold-light)}
+.ni .ic{font-size:15px;width:19px;text-align:center}
+.sb-foot{padding:14px 10px;border-top:1px solid rgba(255,255,255,.08)}
+.logout{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:9px;font-size:13px;color:#9aa3b8;cursor:pointer;transition:all .14s;width:100%;background:none;border:none;font-family:'Cairo',sans-serif}
+.logout:hover{background:rgba(192,57,43,.15);color:#e74c3c}
+
+.main{flex:1;margin-right:var(--sw);display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:#fff;border-bottom:1px solid var(--border);padding:0 18px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:40}
+.topbar h2{font-size:17px;font-weight:700}
+.tba{display:flex;gap:9px;align-items:center}
+.pg{display:none;padding:22px}
+.pg.on{display:block}
+
+/* mobile menu button */
+.menu-btn{display:none;background:none;border:none;cursor:pointer;font-size:26px;padding:4px 8px;color:var(--ink);line-height:1;z-index:60;position:relative}
+/* sidebar overlay (mobile) */
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:49;backdrop-filter:blur(2px)}
+.sb-overlay.on{display:block}
+
+@media(max-width:768px){
+  .menu-btn{display:block}
+  #sbCloseBtn{display:block !important}
+  .sidebar{transform:translateX(260px);transition:transform .25s ease;box-shadow:none;z-index:200}
+  .sidebar.open{transform:translateX(0);box-shadow:-8px 0 32px rgba(0,0,0,.3)}
+  .sb-overlay{z-index:199}
+  .main{margin-right:0}
+  .pg{padding:16px}
+  .g2{grid-template-columns:1fr}
+  .frow{grid-template-columns:1fr}
+  .cgrid{grid-template-columns:1fr}
+  .sgrid{grid-template-columns:repeat(2,1fr)}
+  .topbar{padding:0 14px}
+  table{font-size:11px}
+  th,td{padding:9px 10px}
+}
+
+/* stats */
+.sgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:18px;margin-bottom:28px}
+.sc{background:#fff;border-radius:14px;padding:22px;border:1px solid var(--border)}
+.sc-lbl{font-size:11px;color:var(--muted);font-weight:500;margin-bottom:7px}
+.sc-val{font-size:30px;font-weight:800;color:var(--ink);line-height:1}
+.sc-sub{font-size:10px;color:var(--muted);margin-top:5px}
+.sc.gold .sc-val{color:var(--gold)}
+
+/* cards */
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.card{background:#fff;border-radius:14px;border:1px solid var(--border);overflow:hidden;transition:box-shadow .2s,transform .2s}
+.card:hover{box-shadow:0 8px 28px rgba(0,0,0,.08);transform:translateY(-2px)}
+.stripe{height:4px}
+.stripe-blue{background:linear-gradient(90deg,#3b82f6,#60a5fa)}
+.stripe-green{background:linear-gradient(90deg,#2d7a4f,#4ade80)}
+.stripe-gold{background:linear-gradient(90deg,var(--gold),var(--gold-light))}
+.stripe-purple{background:linear-gradient(90deg,#7c3aed,#a78bfa)}
+.stripe-red{background:linear-gradient(90deg,#c0392b,#f87171)}
+.ch{padding:18px 18px 14px;display:flex;align-items:flex-start;gap:12px}
+.ci{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.ci.blue{background:rgba(59,130,246,.1)}.ci.green{background:rgba(45,122,79,.1)}
+.ci.gold{background:rgba(201,168,76,.12)}.ci.red{background:rgba(192,57,43,.1)}.ci.purple{background:rgba(124,58,237,.1)}
+.ct{font-size:14px;font-weight:700;margin-bottom:3px}
+.cm{font-size:11px;color:var(--muted)}
+.cb{padding:0 18px 16px}
+.cd{font-size:12px;color:#555;line-height:1.7;margin-bottom:12px}
+.ca{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+
+/* table */
+.tw{background:#fff;border-radius:14px;border:1px solid var(--border);overflow:hidden}
+table{width:100%;border-collapse:collapse}
+th{background:var(--cream);padding:11px 16px;text-align:right;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--border)}
+td{padding:13px 16px;font-size:12px;border-bottom:1px solid rgba(226,221,214,.5);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(247,244,239,.5)}
+.sbdg{display:inline-flex;align-items:center;gap:4px;padding:3px 11px;border-radius:50px;font-size:11px;font-weight:600}
+.lbdg{display:inline-flex;padding:2px 9px;border-radius:50px;font-size:10px;font-weight:700;background:rgba(201,168,76,.12);color:#92400e}
+.sembdg{display:inline-flex;padding:2px 9px;border-radius:50px;font-size:10px;font-weight:700;background:rgba(124,58,237,.1);color:#7c3aed}
+.tag{background:var(--cream);border:1px solid var(--border);padding:2px 9px;border-radius:50px;font-size:11px;font-weight:500;color:var(--muted)}
+
+/* filter */
+.fbar{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:center}
+.sbox{flex:1;min-width:200px;position:relative}
+.sbox input{width:100%;padding:9px 14px 9px 38px;border:1.5px solid var(--border);border-radius:9px;font-family:'Cairo',sans-serif;font-size:12px;background:#fff;outline:none;transition:border-color .2s}
+.sbox input:focus{border-color:var(--gold)}
+.sbox::before{content:'🔍';position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px}
+.fsel{padding:9px 14px;border:1.5px solid var(--border);border-radius:9px;font-family:'Cairo',sans-serif;font-size:12px;background:#fff;outline:none;cursor:pointer}
+.fsel:focus{border-color:var(--gold)}
+
+/* subject card (student) */
+.scrd{background:#fff;border-radius:14px;border:1px solid var(--border);padding:22px;cursor:pointer;transition:all .2s;overflow:hidden}
+.scrd:hover{box-shadow:0 8px 28px rgba(0,0,0,.08);transform:translateY(-2px);border-color:var(--gold)}
+.scrd .sic{font-size:34px;margin-bottom:10px}
+.scrd h3{font-size:15px;font-weight:700;margin-bottom:5px}
+.scrd p{font-size:11px;color:var(--muted);margin-bottom:14px}
+.sstats{display:flex;gap:14px}
+.sst{text-align:center}
+.sst span{display:block;font-size:17px;font-weight:800;color:var(--gold)}
+.sst small{font-size:10px;color:var(--muted)}
+
+/* resource list */
+.rlist{list-style:none}
+.ri{display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid rgba(226,221,214,.5);transition:background .14s}
+.ri:last-child{border-bottom:none}
+.ri:hover{background:var(--cream)}
+.ric{font-size:20px;width:34px;text-align:center;flex-shrink:0}
+.rinfo{flex:1;min-width:0}
+.rname{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rsub{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* upload */
+.type-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:13px 7px;border:2px solid var(--border);border-radius:11px;cursor:pointer;background:var(--cream);transition:all .18s;user-select:none}
+.type-tile:hover{border-color:var(--gold);background:rgba(201,168,76,.06)}
+.type-tile.sel{border-color:var(--gold);background:rgba(201,168,76,.14);box-shadow:0 0 0 3px rgba(201,168,76,.15)}
+.dzone{border:2px dashed var(--border);border-radius:14px;padding:32px 20px;text-align:center;cursor:pointer;transition:all .2s;background:#fff}
+.dzone:hover,.dzone.drag{border-color:var(--gold);background:rgba(201,168,76,.04)}
+.dzone.drag{transform:scale(1.01)}
+
+/* inline form */
+.iform{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:24px;margin-bottom:22px;max-width:640px}
+.iform h3{font-size:15px;font-weight:700;margin-bottom:18px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+/* tabs */
+.tabs{display:flex;gap:3px;background:var(--cream);border-radius:9px;padding:3px;margin-bottom:20px;border:1px solid var(--border);width:fit-content;flex-wrap:wrap}
+.tab{padding:7px 15px;border-radius:7px;border:none;background:none;font-family:'Cairo',sans-serif;font-size:12px;font-weight:500;color:var(--muted);cursor:pointer;transition:all .18s}
+.tab.on{background:#fff;color:var(--ink);font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+
+/* misc */
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.sh h3{font-size:16px;font-weight:700}
+.es{text-align:center;padding:56px 20px;color:var(--muted)}
+.es .ei{font-size:52px;margin-bottom:14px}
+.es h3{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:7px}
+.es p{font-size:12px}
+.back{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);cursor:pointer;margin-bottom:18px;font-weight:500;background:none;border:none;font-family:'Cairo',sans-serif}
+.back:hover{color:var(--ink)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media(max-width:768px){.g2{grid-template-columns:1fr}.frow{grid-template-columns:1fr}}
+.alert{padding:12px 16px;border-radius:11px;font-size:12px;margin-bottom:18px;display:flex;align-items:center;gap:9px}
+.aw{background:rgba(245,158,11,.1);color:#92400e;border:1px solid rgba(245,158,11,.2)}
+.as{background:rgba(45,122,79,.1);color:#166534;border:1px solid rgba(45,122,79,.2)}
+.ptag{display:inline-flex;align-items:center;gap:4px;padding:3px 11px;border-radius:50px;font-size:10px;font-weight:600;background:rgba(201,168,76,.12);color:#92400e;margin-bottom:14px}
+.pill{display:inline-block;background:rgba(201,168,76,.12);color:#92400e;border:1px solid rgba(201,168,76,.2);padding:4px 12px;border-radius:50px;font-size:10px;font-weight:700}
+hr.dv{border:none;border-top:1px solid var(--border);margin:18px 0}
+
+/* toast */
+.toast{position:fixed;top:22px;left:50%;transform:translateX(-50%) translateY(-80px);background:var(--deep);color:#fff;padding:11px 22px;border-radius:50px;font-size:13px;font-weight:500;z-index:9999;transition:transform .3s;display:flex;align-items:center;gap:7px;box-shadow:0 8px 28px rgba(0,0,0,.3);white-space:nowrap}
+.toast.on{transform:translateX(-50%) translateY(0)}
+.toast.s{background:var(--success)}.toast.e{background:var(--danger)}
+
+/* loading */
+#lov{display:none;position:fixed;inset:0;background:rgba(15,17,23,.75);z-index:9999;flex-direction:column;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+#lov.on{display:flex}
+.spin{width:44px;height:44px;border:4px solid rgba(201,168,76,.25);border-top-color:var(--gold);border-radius:50%;animation:sp .8s linear infinite;margin-bottom:14px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.lmsg{color:#fff;font-size:13px;font-weight:600}
+
+/* image viewer */
+#iv{display:none;position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:9000;align-items:center;justify-content:center;flex-direction:column}
+#iv.on{display:flex}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+<div id="lov"><div class="spin"></div><div class="lmsg" id="lmsg">جاري التحميل...</div></div>
+
+<!-- LANDING -->
+<div id="landing">
+  <nav class="lnav">
+    <div class="logo">
+      <div class="logo-mark">ج</div>
+      <div><div class="logo-text">جامعتي</div><span class="logo-sub">بوّابتك نحو التميّز الأكاديمي</span></div>
+    </div>
+    <div class="nav-links">
+      <button class="btn btn-ghost" onclick="openM('mLogin')">الدخول</button>
+      <button class="btn btn-gold"  onclick="openM('mReg')">انضم الآن</button>
+    </div>
+  </nav>
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">✦ المنصة الأكاديمية الأولى لطلابنا</div>
+      <h1>مسيرتك تبدأ من <span>جامعتي</span></h1>
+      <p>محتوى أكاديمي راقٍ، منظَّم بدقة لكل مستوى وتخصص — دروس، شروحات مرئية، وثائق، وتمارين في مكان واحد.</p>
+      <div class="hero-btns">
+        <button class="btn btn-gold" onclick="openM('mReg')">✨ ابدأ رحلتك الآن</button>
+        <button class="btn btn-ghost" onclick="openM('mLogin')">لديّ حساب</button>
+      </div>
+    </div>
+  </section>
+  <div style="background:#fff;padding:48px 0">
+    <div class="feats">
+      <div class="feat"><div class="feat-icon">🎯</div><h3>محتوى مخصّص لك</h3><p>بمجرد تسجيل مستواك وتخصصك، تجد موادك فقط — بلا تشتيت ولا فوضى</p></div>
+      <div class="feat"><div class="feat-icon">🎬</div><h3>شروحات مرئية احترافية</h3><p>فيديوهات تفاعلية تُبسّط أصعب المفاهيم وتُرسّخها في الذهن</p></div>
+      <div class="feat"><div class="feat-icon">📄</div><h3>مكتبة وثائق متكاملة</h3><p>ملاحق PDF، صور توضيحية، وتمارين محلولة — كلها في متناول يدك</p></div>
+      <div class="feat"><div class="feat-icon">☁️</div><h3>في كل مكان، في أي وقت</h3><p>منصتك محفوظة على السحابة — افتحها من هاتفك أو حاسوبك متى شئت</p></div>
+    </div>
+  </div>
+  <div style="background:var(--deep);text-align:center;padding:18px;font-size:11px;color:#5a6280">© 2025 منصة جامعتي — صُنعت بشغف لطلاب جامعة نواكشوط</div>
+</div>
+
+<!-- LOGIN -->
+<div class="overlay" id="mLogin">
+  <div class="modal">
+    <button class="mcls" onclick="closeM('mLogin')">✕</button>
+    <h2>أهلاً بعودتك 👋</h2>
+    <p class="sub">سجّل دخولك وتابع من حيث توقفت</p>
+    <div class="fg"><label>البريد الإلكتروني</label><input type="email" id="lEmail" placeholder="example@email.com"></div>
+    <div class="fg"><label>كلمة المرور</label><input type="password" id="lPass" placeholder="••••••••"></div>
+    <button class="btn btn-gold" onclick="doLogin()">دخول</button>
+    <div class="tlink">ليس لديك حساب؟ <a onclick="sw('mLogin','mReg')">إنشاء حساب</a></div>
+  </div>
+</div>
+
+<!-- REGISTER -->
+<div class="overlay" id="mReg">
+  <div class="modal" style="max-width:480px">
+    <button class="mcls" onclick="closeM('mReg')">✕</button>
+    <h2>انضم إلى جامعتي 🎓</h2>
+    <p class="sub">حسابك بوّابة تفوّقك — إنشاؤه مجاني تماماً</p>
+    <div class="fg"><label>الاسم الكامل</label><input id="rName" placeholder="محمد أحمد"></div>
+    <div class="fg"><label>البريد الإلكتروني</label><input type="email" id="rEmail" placeholder="example@email.com"></div>
+    <div class="fg"><label>كلمة المرور</label><input type="password" id="rPass" placeholder="••••••••"></div>
+    <div class="fg"><label>رقم الهاتف (اختياري)</label><input type="tel" id="rPhone" placeholder="222 000 000"></div>
+    <div class="fg">
+      <label>التخصص</label>
+      <div class="lv-grid" id="specGrid">
+        <button type="button" class="lv-btn" onclick="pickSpec('BA',this)">BA</button>
+        <button type="button" class="lv-btn" onclick="pickSpec('FC',this)">FC</button>
+        <button type="button" class="lv-btn" onclick="pickSpec('GRH',this)">GRH</button>
+      </div>
+      <input type="hidden" id="rSpec">
+    </div>
+    <div class="fg">
+      <label>المستوى الدراسي</label>
+      <input type="hidden" id="rLevel">
+      <div class="lv-grid" id="lvGrid">
+        <button type="button" class="lv-btn" onclick="pickLv('L1',this)">L1</button>
+        <button type="button" class="lv-btn" onclick="pickLv('L2',this)">L2</button>
+        <button type="button" class="lv-btn" onclick="pickLv('L3',this)">L3</button>
+        <button type="button" class="lv-btn" onclick="pickLv('M1',this)">M1</button>
+        <button type="button" class="lv-btn" onclick="pickLv('M2',this)">M2</button>
+        <button type="button" class="lv-btn" onclick="pickLv('D',this)">دكتوراه</button>
+      </div>
+    </div>
+    <div class="fg" id="semGrp" style="display:none">
+      <label>الفصل الدراسي</label>
+      <input type="hidden" id="rSem">
+      <div class="sm-grid" id="smGrid"></div>
+    </div>
+    <button class="btn btn-gold" onclick="doRegister()">إنشاء الحساب</button>
+    <div class="tlink">لديك حساب؟ <a onclick="sw('mReg','mLogin')">تسجيل الدخول</a></div>
+  </div>
+</div>
+
+<!-- Sidebar overlay for mobile -->
+<div class="sb-overlay" id="sbOverlay" onclick="(function(){var sb=document.getElementById('sidebar');var ov=document.getElementById('sbOverlay');if(sb)sb.classList.remove('open');if(ov)ov.classList.remove('on');})()"></div>
+
+<!-- APP -->
+<div id="app">
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sb-logo">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div class="logo">
+            <div class="logo-mark">ج</div>
+            <div><div class="logo-text">جامعتي</div><span class="logo-sub" style="color:rgba(201,168,76,.6)">بوّابة التميّز الأكاديمي</span></div>
+          </div>
+          <button onclick="(function(){var sb=document.getElementById('sidebar');var ov=document.getElementById('sbOverlay');if(sb)sb.classList.remove('open');if(ov)ov.classList.remove('on');})()" style="background:none;border:none;color:#9aa3b8;font-size:22px;cursor:pointer;padding:4px;display:none" id="sbCloseBtn">✕</button>
+        </div>
+      </div>
+      <div class="sb-user">
+        <div class="av" id="sbAv">م</div>
+        <div>
+          <div class="ui-name" id="sbName">المستخدم</div>
+          <div class="ui-role" id="sbRole">طالب</div>
+          <div id="sbLv"></div>
+        </div>
+      </div>
+      <nav class="sb-nav" id="sbNav"></nav>
+      <div class="sb-foot">
+        <button class="logout" onclick="doLogout()"><span>🚪</span> تسجيل الخروج</button>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="topbar">
+        <h2 id="tbTitle">لوحة التحكم</h2>
+        <div class="tba" id="tbActions"></div>
+        <button class="menu-btn" onclick="(function(){var sb=document.getElementById('sidebar');var ov=document.getElementById('sbOverlay');if(sb)sb.classList.toggle('open');if(ov)ov.classList.toggle('on');})()" title="القائمة">☰</button>
+      </div>
+      <div id="pgArea" style="flex:1"></div>
+    </main>
+  </div>
+</div>
+
+<!-- Image viewer -->
+<div id="iv">
+  <button onclick="closeIV()" style="position:fixed;top:18px;left:18px;background:rgba(255,255,255,.15);color:#fff;border:none;border-radius:50%;width:40px;height:40px;font-size:20px;cursor:pointer">✕</button>
+  <img id="ivImg" style="max-width:90vw;max-height:82vh;border-radius:10px;object-fit:contain">
+  <div id="ivCap" style="color:#ccc;font-size:12px;margin-top:10px;text-align:center"></div>
+  <div style="display:flex;gap:14px;margin-top:14px">
+    <button onclick="ivNav(-1)" style="background:rgba(255,255,255,.15);color:#fff;border:none;border-radius:50%;width:40px;height:40px;font-size:18px;cursor:pointer">‹</button>
+    <button onclick="ivNav(1)"  style="background:rgba(255,255,255,.15);color:#fff;border:none;border-radius:50%;width:40px;height:40px;font-size:18px;cursor:pointer">›</button>
+  </div>
+</div>
+
+<script type="module">
+// ══════════════════════════════════════════
+//  FIREBASE
+// ══════════════════════════════════════════
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc,
+  collection, getDocs, onSnapshot, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+// Storage not used (requires paid plan) — files stored as base64 in Firestore
+const app = initializeApp({
+  apiKey: "AIzaSyBQLYMci9arI6smy_Rz3HTxJcaLIcHfMWA",
+  authDomain: "nukhba-f4893.firebaseapp.com",
+  projectId: "nukhba-f4893",
+  storageBucket: "nukhba-f4893.firebasestorage.app",
+  messagingSenderId: "45202308690",
+  appId: "1:45202308690:web:9713a80ee83f1651bc298b"
+});
+const db  = getFirestore(app);
+
+// ══════════════════════════════════════════
+//  CONFIG
+// ══════════════════════════════════════════
+const LEVELS = {
+  L1:{sems:['S1','S2']}, L2:{sems:['S3','S4']}, L3:{sems:['S5','S6']},
+  M1:{sems:['S7','S8']}, M2:{sems:['S9','S10']}, D:{sems:['S1','S2','S3','S4']}
+};
+const TICONS = {pdf:'📄',video:'🎬',image:'🖼',exercise:'✏️',other:'📎'};
+
+// ══════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════
+let DB = {users:[],subjects:[],resources:[],announcements:[],settings:{}};
+let CU = null; // currentUser
+let _page = null, _data = null;
+let _unsubs = [];
+let _uploadFile = null;
+let _upData = {type:'',url:'',name:''};
+let _ivImgs = [], _ivIdx = 0;
+let _sf = {level:'',sem:''};
+let _platformLaunched = false; // controlled by owner
+
+// ══════════════════════════════════════════
+//  FIRESTORE HELPERS
+// ══════════════════════════════════════════
+async function fall(col) {
+  const s = await getDocs(collection(db,col));
+  return s.docs.map(d=>({id:d.id,...d.data()}));
+}
+async function fset(col,id,data){ await setDoc(doc(db,col,id),data,{merge:true}); }
+async function fupd(col,id,data){ await updateDoc(doc(db,col,id),data); }
+async function fdel(col,id){ await deleteDoc(doc(db,col,id)); }
+
+// ══════════════════════════════════════════
+//  REAL-TIME LISTENERS
+// ══════════════════════════════════════════
+function startListeners(){
+  _unsubs.forEach(u=>u()); _unsubs=[];
+  ['subjects','resources','announcements','users'].forEach(col=>{
+    _unsubs.push(onSnapshot(collection(db,col), snap=>{
+      DB[col] = snap.docs.map(d=>({id:d.id,...d.data()}));
+      if(_page) reRender(col);
+    }));
+  });
+}
+const _colPages = {
+  subjects:['ownerSubjects','ownerResources','ownerDash','studentSubjects'],
+  resources:['ownerResources','studentSubjectView','studentSubjects','ownerDash'],
+  announcements:['ownerAnn','studentAnn','ownerDash'],
+  users:['ownerStudents','ownerDash']
+};
+function reRender(col){
+  if((_colPages[col]||[]).includes(_page)) nav(_page,_data);
+  // if student is on locked page and platform just launched, redirect
+  if(CU&&CU.role==='student'&&_page==='studentLocked'&&_platformLaunched) nav('studentSubjects');
+}
+
+// ══════════════════════════════════════════
+//  LOADING
+// ══════════════════════════════════════════
+function ld(msg='جاري التحميل...'){
+  const el=document.getElementById('lov');
+  const ml=document.getElementById('lmsg');
+  if(ml) ml.textContent=msg;
+  if(el) el.classList.add('on');
+}
+function uld(){
+  const el=document.getElementById('lov');
+  if(el) el.classList.remove('on');
+}
+
+// ══════════════════════════════════════════
+//  TOAST
+// ══════════════════════════════════════════
+function toast(msg,t=''){
+  const el=document.getElementById('toast');
+  el.textContent=(t==='s'?'✅ ':t==='e'?'❌ ':'ℹ️ ')+msg;
+  el.className='toast on '+(t==='s'?'s':t==='e'?'e':'');
+  clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('on'),3200);
+}
+
+// ══════════════════════════════════════════
+//  MODAL
+// ══════════════════════════════════════════
+function openM(id){ document.getElementById(id).classList.add('on'); }
+function closeM(id){ document.getElementById(id).classList.remove('on'); }
+function sw(a,b){ closeM(a); openM(b); }
+// Close modals on overlay click
+document.querySelectorAll('.overlay').forEach(o=>
+  o.addEventListener('click',e=>{ if(e.target===o) o.classList.remove('on'); })
+);
+
+// ══════════════════════════════════════════
+//  LEVEL / SEMESTER PICKER
+// ══════════════════════════════════════════
+function pickLv(lv, btn){
+  document.querySelectorAll('#lvGrid .lv-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  document.getElementById('rLevel').value=lv;
+  const sg=document.getElementById('semGrp'), sm=document.getElementById('smGrid');
+  sg.style.display='block';
+  document.getElementById('rSem').value='';
+  sm.innerHTML=LEVELS[lv].sems.map(s=>
+    `<button type="button" class="lv-btn" onclick="pickSm('${s}',this)">${s}</button>`
+  ).join('');
+}
+function pickSm(s,btn){
+  document.querySelectorAll('#smGrid .lv-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  document.getElementById('rSem').value=s;
+}
+
+// ══════════════════════════════════════════
+//  AUTH
+// ══════════════════════════════════════════
+async function doLogin(){
+  const email=document.getElementById('lEmail').value.trim();
+  const pass=document.getElementById('lPass').value;
+  ld('جاري التحقق...');
+  try{
+    await loadAll();
+    const u=DB.users.find(u=>u.email===email&&u.pass===pass);
+    if(!u){ uld(); return toast('البريد أو كلمة المرور غير صحيحة','e'); }
+    CU=u; localStorage.setItem('nk_sid',u.id);
+    closeM('mLogin'); uld(); initApp();
+  }catch(e){ uld(); toast('خطأ: '+e.message,'e'); }
+}
+
+function pickSpec(sp,el){
+  document.querySelectorAll('#specGrid .lv-btn').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('rSpec').value=sp;
+}
+
+async function doRegister(){
+  const name=document.getElementById('rName').value.trim();
+  const email=document.getElementById('rEmail').value.trim();
+  const pass=document.getElementById('rPass').value;
+  const phone=document.getElementById('rPhone').value.trim();
+  const spec=document.getElementById('rSpec').value;
+  const level=document.getElementById('rLevel').value;
+  const sem=document.getElementById('rSem').value;
+  if(!name||!email||!pass) return toast('يرجى ملء جميع الحقول','e');
+  if(!spec) return toast('يرجى اختيار التخصص','e');
+  if(!level) return toast('يرجى اختيار المستوى','e');
+  if(!sem)   return toast('يرجى اختيار الفصل','e');
+  await loadAll();
+  if(DB.users.find(u=>u.email===email)) return toast('هذا البريد مسجّل مسبقاً','e');
+  ld('جاري إنشاء الحساب...');
+  try{
+    const id='u'+Date.now();
+    const nu={id,name,email,pass,phone,spec,level,semester:sem,role:'student',status:'approved',createdAt:Date.now()};
+    await fset('users',id,nu);
+    DB.users.push(nu); CU=nu;
+    localStorage.setItem('nk_sid',id);
+    closeM('mReg'); uld(); toast('مرحباً بك في جامعتي — طريقك للتفوق بدأ الآن 🎓','s'); initApp();
+  }catch(e){ uld(); toast('فشل: '+e.message,'e'); }
+}
+
+function doLogout(){
+  _unsubs.forEach(u=>u()); _unsubs=[];
+  CU=null; localStorage.removeItem('nk_sid');
+  document.getElementById('app').style.display='none';
+  document.getElementById('landing').style.display='flex';
+  // close sidebar
+  const sb=document.getElementById('sidebar');
+  const ov=document.getElementById('sbOverlay');
+  if(sb) sb.classList.remove('open');
+  if(ov) ov.classList.remove('on');
+  toast('تم تسجيل الخروج');
+}
+
+// ══════════════════════════════════════════
+//  LOAD ALL
+// ══════════════════════════════════════════
+async function loadAll(){
+  const [users,subjects,resources,announcements]=await Promise.all([
+    fall('users'),fall('subjects'),fall('resources'),fall('announcements')
+  ]);
+  DB={users,subjects,resources,announcements,settings:{}};
+  // load platform settings
+  try{
+    const sd=await getDoc(doc(db,'settings','platform'));
+    if(sd.exists()) DB.settings=sd.data();
+    else { await fset('settings','platform',{launched:false}); DB.settings={launched:false}; }
+  }catch(_){}
+  _platformLaunched = !!DB.settings.launched;
+}
+
+// ══════════════════════════════════════════
+//  APP INIT
+// ══════════════════════════════════════════
+async function initApp(){
+  ld('جاري تحميل البيانات...');
+  try{
+    await loadAll();
+    CU=DB.users.find(u=>u.id===CU.id)||CU;
+    document.getElementById('landing').style.display='none';
+    document.getElementById('app').style.display='block';
+    document.getElementById('sbAv').textContent=CU.name[0];
+    document.getElementById('sbName').textContent=CU.name;
+    document.getElementById('sbRole').textContent=CU.role==='owner'?'👑 مالك المنصة':'طالب';
+    const lv=document.getElementById('sbLv');
+    if(CU.role==='student'&&CU.level)
+      lv.innerHTML=`<span class="lchip">🎓 ${CU.level} | ${CU.semester}</span>`;
+    else lv.innerHTML='';
+    buildSB(); startListeners(); uld();
+    if(CU.role==='owner'){
+      nav('ownerDash');
+    } else {
+      // student: check if platform is launched
+      if(!_platformLaunched){
+        nav('studentLocked');
+      } else {
+        nav('studentSubjects');
+      }
+    }
+  }catch(e){ uld(); toast('خطأ في التحميل: '+e.message,'e'); }
+}
+
+// ══════════════════════════════════════════
+//  SIDEBAR
+// ══════════════════════════════════════════
+function buildSB(){
+  const n=document.getElementById('sbNav');
+  n.innerHTML=CU.role==='owner'?`
+    <div class="ns"><div class="ns-title">الإدارة</div>
+      <div class="ni" onclick="nav('ownerDash')"><span class="ic">🏠</span> لوحة التحكم</div>
+      <div class="ni" onclick="nav('ownerStudents')"><span class="ic">👥</span> الطلاب</div>
+      <div class="ni" onclick="nav('ownerSubjects')"><span class="ic">📚</span> المواد</div>
+      <div class="ni" onclick="nav('ownerResources')"><span class="ic">📁</span> المحتوى</div>
+      <div class="ni" onclick="nav('ownerAnn')"><span class="ic">📢</span> الإعلانات</div>
+    </div>`:
+  `<div class="ns"><div class="ns-title">المحتوى</div>
+    <div class="ni" onclick="nav('studentSubjects')"><span class="ic">🏠</span> موادي</div>
+    <div class="ni" onclick="nav('studentAnn')"><span class="ic">📢</span> الإعلانات</div>
+    <div class="ni" onclick="nav('studentProfile')"><span class="ic">👤</span> ملفي</div>
+  </div>`;
+}
+
+function hiNav(pg){
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  const map=CU.role==='owner'
+    ?{ownerDash:0,ownerStudents:1,ownerSubjects:2,ownerResources:3,ownerAnn:4}
+    :{studentSubjects:0,studentSubjectView:0,studentAnn:1,studentProfile:2};
+  const items=document.querySelectorAll('.ni');
+  if(map[pg]!==undefined&&items[map[pg]]) items[map[pg]].classList.add('on');
+}
+
+// ══════════════════════════════════════════
+//  NAVIGATE
+// ══════════════════════════════════════════
+const TITLES={
+  ownerDash:'لوحة التحكم',ownerStudents:'إدارة الطلاب',ownerSubjects:'إدارة المواد',
+  ownerResources:'إدارة المحتوى',ownerAnn:'الإعلانات',
+  studentSubjects:'موادي',studentSubjectView:'عرض المادة',
+  studentAnn:'الإعلانات',studentProfile:'ملفي الشخصي',
+  studentLocked:'في انتظار الانطلاق'
+};
+
+function nav(pg, data=null){
+  _page=pg; _data=data;
+  hiNav(pg);
+  // close sidebar on mobile after navigation
+  const sb=document.getElementById('sidebar');
+  const ov=document.getElementById('sbOverlay');
+  if(sb) sb.classList.remove('open');
+  if(ov) ov.classList.remove('on');
+  document.getElementById('tbTitle').textContent=TITLES[pg]||'';
+  document.getElementById('tbActions').innerHTML='';
+  const pgArea=document.getElementById('pgArea');
+  const map={
+    ownerDash:pgOwnerDash, ownerStudents:pgOwnerStudents,
+    ownerSubjects:pgOwnerSubjects, ownerResources:pgOwnerResources,
+    ownerAnn:pgOwnerAnn,
+    studentSubjects:pgStudentSubjects,
+    studentSubjectView:()=>pgStudentSubjectView(data),
+    studentAnn:pgStudentAnn, studentProfile:pgStudentProfile,
+    studentLocked:pgStudentLocked
+  };
+  if(map[pg]) pgArea.innerHTML=map[pg]();
+}
+
+// ══════════════════════════════════════════
+//  OWNER — DASHBOARD
+// ══════════════════════════════════════════
+function pgOwnerDash(){
+  const stu=DB.users.filter(u=>u.role==='student');
+  const lmap={};
+  stu.forEach(u=>{ const k=u.level+'/'+u.semester; lmap[k]=(lmap[k]||0)+1; });
+  const lsum=Object.entries(lmap).map(([k,v])=>`<span class="tag">${k}: ${v}</span>`).join(' ');
+  const launchBtnHtml = _platformLaunched
+    ? `<div class="alert as" style="align-items:center">
+        <span>🚀 المنصة مُطلقة — الطلاب يستطيعون الدخول والتصفح</span>
+        <button class="btn btn-danger btn-sm" style="margin-right:auto;flex-shrink:0" onclick="toggleLaunch()">🔒 إيقاف الإطلاق</button>
+       </div>`
+    : `<div class="alert aw" style="align-items:center">
+        <span>🔒 المنصة مقفلة — لا يرى الطلاب أي محتوى حتى تُطلقها</span>
+        <button class="btn btn-success btn-sm" style="margin-right:auto;flex-shrink:0" onclick="toggleLaunch()">🚀 إطلاق المنصة</button>
+       </div>`;
+  return `<div class="pg on">
+    ${launchBtnHtml}
+    <div class="sgrid">
+      <div class="sc"><div class="sc-lbl">إجمالي الطلاب</div><div class="sc-val">${stu.length}</div><div class="sc-sub">مسجّلون</div></div>
+      <div class="sc"><div class="sc-lbl">المواد</div><div class="sc-val">${DB.subjects.length}</div><div class="sc-sub">${DB.resources.length} ملف</div></div>
+    </div>
+    ${lsum?`<div style="margin-bottom:22px"><div class="sh"><h3>توزيع الطلاب</h3></div><div style="display:flex;gap:7px;flex-wrap:wrap">${lsum}</div></div>`:''}
+    <div style="margin-bottom:22px">
+      <button class="btn btn-danger btn-sm" onclick="resetOldData()">🗑 مسح جميع الطلاب والمواد القديمة</button>
+    </div>
+    <div class="g2">
+      <div>
+        <div class="sh"><h3>آخر الطلاب</h3><button class="btn btn-outline btn-sm" onclick="nav('ownerStudents')">الكل</button></div>
+        <div class="tw"><table><thead><tr><th>الاسم</th><th>المستوى</th></tr></thead><tbody>
+          ${stu.slice(-5).reverse().map(u=>`<tr>
+            <td><strong>${u.name}</strong><br><small style="color:var(--muted)">${u.email}</small></td>
+            <td>${u.level?`<span class="lbdg">${u.level}</span> <span class="sembdg">${u.semester}</span>`:'—'}</td>
+          </tr>`).join('')||'<tr><td colspan="2" style="text-align:center;padding:20px;color:var(--muted)">لا يوجد طلاب</td></tr>'}
+        </tbody></table></div>
+      </div>
+      <div>
+        <div class="sh"><h3>آخر الإعلانات</h3><button class="btn btn-outline btn-sm" onclick="nav('ownerAnn')">إدارة</button></div>
+        <div class="tw">
+          ${DB.announcements.slice(-3).reverse().map(a=>`<div style="padding:14px 18px;border-bottom:1px solid var(--border)">
+            <div style="font-weight:700;font-size:13px;margin-bottom:3px">${a.title}</div>
+            <div style="font-size:11px;color:var(--muted)">${(a.body||'').substring(0,65)}...</div>
+          </div>`).join('')||'<div style="padding:20px;text-align:center;color:var(--muted)">لا توجد إعلانات</div>'}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════
+//  OWNER — STUDENTS
+// ══════════════════════════════════════════
+function pgOwnerStudents(){
+  const stu=DB.users.filter(u=>u.role==='student');
+  return `<div class="pg on">
+    <div class="fbar">
+      <select class="fsel" onchange="sflv(this.value)">
+        <option value="">كل المستويات</option>
+        ${Object.keys(LEVELS).map(l=>`<option value="${l}">${l}</option>`).join('')}
+      </select>
+      <select class="fsel" onchange="sfsm(this.value)">
+        <option value="">كل الفصول</option>
+        ${['S1','S2','S3','S4','S5','S6','S7','S8','S9','S10'].map(s=>`<option value="${s}">${s}</option>`).join('')}
+      </select>
+    </div>
+    <div id="stuWrap">${buildStuTable(stu)}</div>
+  </div>`;
+}
+
+function sflv(v){ _sf.level=v; applySF(); }
+function sfsm(v){ _sf.sem=v; applySF(); }
+function applySF(){
+  let u=DB.users.filter(u=>u.role==='student');
+  if(_sf.level) u=u.filter(x=>x.level===_sf.level);
+  if(_sf.sem)   u=u.filter(x=>x.semester===_sf.sem);
+  document.getElementById('stuWrap').innerHTML=buildStuTable(u);
+}
+function buildStuTable(users){
+  if(!users.length) return `<div class="es"><div class="ei">👥</div><h3>لا يوجد طلاب</h3></div>`;
+  return `<div class="tw"><table>
+    <thead><tr><th>الطالب</th><th>المستوى / الفصل</th><th>الهاتف</th></tr></thead>
+    <tbody>${users.map(u=>`<tr>
+      <td><strong>${u.name}</strong><br><small style="color:var(--muted)">${u.email}</small></td>
+      <td>${u.level?`<span class="lbdg">${u.level}</span> <span class="sembdg">${u.semester}</span>`:'—'}</td>
+      <td style="color:var(--muted)">${u.phone||'—'}</td>
+    </tr>`).join('')}</tbody>
+  </table></div>`;
+}
+// ══════════════════════════════════════════
+//  OWNER — SUBJECTS
+// ══════════════════════════════════════════
+function pgOwnerSubjects(){
+  document.getElementById('tbActions').innerHTML=`<button class="btn btn-gold" onclick="showSubForm()">+ إضافة مادة</button>`;
+  return `<div class="pg on">
+    <div id="subFormArea"></div>
+    <div class="fbar">
+      <select class="fsel" onchange="filtSub(this.value,'spec')">
+        <option value="">كل التخصصات</option>
+        <option value="BA">BA</option>
+        <option value="FC">FC</option>
+        <option value="GRH">GRH</option>
+      </select>
+      <select class="fsel" onchange="filtSub(this.value,'level')">
+        <option value="">كل المستويات</option>
+        ${Object.keys(LEVELS).map(l=>`<option value="${l}">${l}</option>`).join('')}
+      </select>
+      <select class="fsel" onchange="filtSub(this.value,'sem')">
+        <option value="">كل الفصول</option>
+        ${['S1','S2','S3','S4','S5','S6','S7','S8','S9','S10'].map(s=>`<option value="${s}">${s}</option>`).join('')}
+      </select>
+    </div>
+    <div class="cgrid" id="subCards">${buildSubCards(DB.subjects)}</div>
+  </div>`;
+}
+let _subF={spec:'',level:'',sem:''};
+function filtSub(v,t){ _subF[t]=v; let s=DB.subjects; if(_subF.spec) s=s.filter(x=>x.spec===_subF.spec); if(_subF.level) s=s.filter(x=>x.level===_subF.level); if(_subF.sem) s=s.filter(x=>x.semester===_subF.sem); document.getElementById('subCards').innerHTML=buildSubCards(s); }
+function buildSubCards(subs){
+  if(!subs.length) return `<div class="es"><div class="ei">📚</div><h3>لا توجد مواد</h3></div>`;
+  return subs.map(s=>`
+    <div class="card">
+      <div class="stripe stripe-${s.color}"></div>
+      <div class="ch">
+        <div class="ci ${s.color}" style="font-size:22px">${s.icon}</div>
+        <div>
+          <div class="ct">${s.name}</div>
+          <div class="cm">${DB.resources.filter(r=>r.subjectId===s.id).length} ملف &nbsp;·&nbsp; <span class="lbdg">${s.spec||''}</span> <span class="lbdg">${s.level}</span> <span class="sembdg">${s.semester}</span></div>
+        </div>
+      </div>
+      <div class="cb">
+        <p class="cd">${s.desc||''}</p>
+        <div class="ca">
+          <button class="btn btn-outline btn-sm" onclick="nav('ownerResources','${s.id}')">📁 المحتوى</button>
+          <button class="btn btn-danger btn-sm" onclick="delSub('${s.id}')">🗑</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+function showSubForm(){
+  document.getElementById('subFormArea').innerHTML=`
+    <div class="iform">
+      <h3>إضافة مادة جديدة</h3>
+      <div class="frow">
+        <div class="fg"><label>اسم المادة *</label><input id="sN" placeholder="مثال: الاقتصاد الجزئي"></div>
+        <div class="fg"><label>الأيقونة</label><input id="sI" value="📘" placeholder="📘"></div>
+      </div>
+      <div class="fg"><label>وصف مختصر</label><input id="sD" placeholder="وصف المادة ومحتواها"></div>
+      <div class="fg"><label>التخصص *</label>
+        <div class="lv-grid" id="sSpecGrid">
+          <button type="button" class="lv-btn" onclick="pickSubSpec('BA',this)">BA</button>
+          <button type="button" class="lv-btn" onclick="pickSubSpec('FC',this)">FC</button>
+          <button type="button" class="lv-btn" onclick="pickSubSpec('GRH',this)">GRH</button>
+        </div>
+        <input type="hidden" id="sSp">
+      </div>
+      <div class="frow">
+        <div class="fg"><label>المستوى *</label>
+          <select id="sL" onchange="updSmOpts()">
+            <option value="">-- اختر --</option>
+            ${Object.keys(LEVELS).map(l=>`<option value="${l}">${l}</option>`).join('')}
+          </select>
+        </div>
+        <div class="fg"><label>الفصل *</label>
+          <select id="sS"><option value="">-- اختر المستوى أولاً --</option></select>
+        </div>
+      </div>
+      <div class="fg"><label>اللون</label>
+        <select id="sC">
+          <option value="blue">أزرق</option><option value="green">أخضر</option>
+          <option value="gold">ذهبي</option><option value="purple">بنفسجي</option><option value="red">أحمر</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:9px">
+        <button class="btn btn-gold" onclick="addSub()">إضافة المادة</button>
+        <button class="btn btn-ghost" onclick="document.getElementById('subFormArea').innerHTML=''">إلغاء</button>
+      </div>
+    </div>`;
+}
+function pickSubSpec(sp,el){
+  document.querySelectorAll('#sSpecGrid .lv-btn').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('sSp').value=sp;
+}
+function updSmOpts(){ const l=document.getElementById('sL').value,sel=document.getElementById('sS'); if(!l){sel.innerHTML='<option value="">-- اختر المستوى أولاً --</option>';return;} sel.innerHTML=LEVELS[l].sems.map(s=>`<option value="${s}">${s}</option>`).join(''); }
+async function addSub(){
+  const name=document.getElementById('sN').value.trim();
+  const icon=document.getElementById('sI').value.trim()||'📘';
+  const desc=document.getElementById('sD').value.trim();
+  const spec=document.getElementById('sSp').value;
+  const level=document.getElementById('sL').value;
+  const semester=document.getElementById('sS').value;
+  const color=document.getElementById('sC').value;
+  if(!name||!spec||!level||!semester) return toast('يرجى ملء جميع الحقول','e');
+  ld('جاري الحفظ...');
+  try{
+    const id='s'+Date.now();
+    await fset('subjects',id,{id,name,icon,desc,spec,level,semester,color,createdAt:Date.now()});
+    uld(); nav('ownerSubjects'); toast('تمت إضافة المادة ✅','s');
+  }catch(e){ uld(); toast('فشل: '+e.message,'e'); }
+}
+async function delSub(id){
+  if(!confirm('هل أنت متأكد من حذف هذه المادة وجميع محتواها؟')) return;
+  ld('جاري الحذف...');
+  try{
+    const ress=DB.resources.filter(r=>r.subjectId===id);
+    await Promise.all(ress.map(r=>fdel('resources',r.id)));
+    await fdel('subjects',id);
+    uld(); nav('ownerSubjects'); toast('تم حذف المادة');
+  }catch(e){ uld(); toast('فشل: '+e.message,'e'); }
+}
+
+// ══════════════════════════════════════════
+//  OWNER — RESOURCES
+// ══════════════════════════════════════════
+function pgOwnerResources(filterSid=null){
+  document.getElementById('tbActions').innerHTML=`<button class="btn btn-gold" onclick="showResForm()">+ إضافة محتوى</button>`;
+  const res=filterSid?DB.resources.filter(r=>r.subjectId===filterSid):DB.resources;
+  return `<div class="pg on">
+    <div id="resFormArea"></div>
+    <div class="fbar">
+      <div class="sbox"><input placeholder="بحث..." oninput="filtRes(this.value,'q')"></div>
+      <select class="fsel" onchange="filtRes(this.value,'sub')" id="resSub">
+        <option value="${filterSid||''}">كل المواد</option>
+        ${DB.subjects.map(s=>`<option value="${s.id}" ${filterSid===s.id?'selected':''}>${s.name} (${s.level}/${s.semester})</option>`).join('')}
+      </select>
+    </div>
+    <div id="resList">${buildResTable(res)}</div>
+  </div>`;
+}
+let _resF={q:'',sub:''};
+function filtRes(v,t){
+  if(t==='q') _resF.q=v;
+  if(t==='sub') _resF.sub=v;
+  let r=DB.resources;
+  if(_resF.sub) r=r.filter(x=>x.subjectId===_resF.sub);
+  if(_resF.q) r=r.filter(x=>(x.title+x.desc).includes(_resF.q));
+  document.getElementById('resList').innerHTML=buildResTable(r);
+}
+function buildResTable(res){
+  if(!res.length) return `<div class="es"><div class="ei">📁</div><h3>لا يوجد محتوى</h3></div>`;
+  return `<div class="tw"><table>
+    <thead><tr><th>المحتوى</th><th>النوع</th><th>المادة</th><th>المستوى</th><th>حذف</th></tr></thead>
+    <tbody>${res.map(r=>{
+      const sub=DB.subjects.find(s=>s.id===r.subjectId);
+      return `<tr>
+        <td><div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:20px">${TICONS[r.type]||'📎'}</span>
+          <div><strong>${r.title}</strong>${r.desc?`<div style="font-size:10px;color:var(--muted);margin-top:1px">${r.desc}</div>`:''}</div>
+        </div></td>
+        <td><span class="tag">${r.type}</span></td>
+        <td>${sub?sub.name:'—'}</td>
+        <td>${sub?`<span class="lbdg">${sub.level}</span> <span class="sembdg">${sub.semester}</span>`:'—'}</td>
+        <td><button class="btn btn-danger btn-sm" onclick="delRes('${r.id}')">🗑</button></td>
+      </tr>`;
+    }).join('')}</tbody>
+  </table></div>`;
+}
+
+// ── Upload form ──
+function showResForm(){
+  _uploadFile=null; _upData={type:'',url:'',name:''};
+  document.getElementById('resFormArea').innerHTML=`
+    <div class="iform">
+      <h3>➕ إضافة محتوى جديد</h3>
+      <div class="fg"><label>نوع المحتوى *</label>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:4px">
+          ${[{v:'pdf',i:'📄',l:'PDF'},{v:'video',i:'🎬',l:'فيديو'},{v:'image',i:'🖼',l:'صورة'},{v:'exercise',i:'✏️',l:'تمرين'},{v:'other',i:'📎',l:'أخرى'}]
+            .map(t=>`<div class="type-tile" id="tile_${t.v}" onclick="pickType('${t.v}')"><span style="font-size:24px">${t.i}</span><span style="font-size:10px;font-weight:600;margin-top:3px">${t.l}</span></div>`).join('')}
+        </div>
+      </div>
+      <div id="upZone" style="display:none">
+        <hr class="dv">
+        <div class="frow">
+          <div class="fg" style="grid-column:1/-1"><label>عنوان المحتوى *</label><input id="rT" placeholder="مثال: محاضرة الفصل الأول"></div>
+        </div>
+        <div class="fg"><label>المادة *</label>
+          <select id="rSub">
+            <option value="">-- اختر --</option>
+            ${DB.subjects.map(s=>`<option value="${s.id}">${s.name} (${s.level}/${s.semester})</option>`).join('')}
+          </select>
+        </div>
+        <div id="fileArea" style="display:none">
+          <!-- tabs: upload small / external link -->
+          <div class="tabs" style="margin-bottom:14px">
+            <button class="tab on" id="tabUpload" onclick="switchUpMode('upload')">⬆️ رفع ملف صغير (أقل من 900KB)</button>
+            <button class="tab" id="tabLink" onclick="switchUpMode('link')">🔗 رابط خارجي (Drive / Telegram)</button>
+          </div>
+
+          <!-- upload mode -->
+          <div id="modeUpload">
+            <div class="dzone" id="dzone"
+              ondragover="event.preventDefault();this.classList.add('drag')"
+              ondragleave="this.classList.remove('drag')"
+              ondrop="onDrop(event)"
+              onclick="document.getElementById('fInp').click()">
+              <div style="font-size:36px;margin-bottom:8px" id="dzIco">⬆️</div>
+              <div style="font-size:13px;font-weight:700;margin-bottom:4px" id="dzLbl">اسحب الملف هنا أو انقر للاختيار</div>
+              <div style="font-size:11px;color:var(--muted)" id="dzHint">PDF حتى 900KB</div>
+              <input type="file" id="fInp" style="display:none" onchange="onFilePick(this)">
+            </div>
+            <div id="fPrev" style="display:none;margin-top:10px"></div>
+          </div>
+
+          <!-- link mode -->
+          <div id="modeLink" style="display:none">
+            <div class="fg">
+              <label>الصق الرابط هنا</label>
+              <input id="rExtLink" placeholder="https://drive.google.com/... أو رابط Telegram">
+            </div>
+            <div class="alert aw" style="font-size:11px;margin-top:4px">
+              📌 <strong>Google Drive:</strong> افتح الملف ← مشاركة ← أي شخص لديه الرابط ← انسخ الرابط
+            </div>
+          </div>
+        </div>
+        <div id="vidArea" style="display:none">
+          <div class="fg"><label>رابط YouTube</label>
+            <input id="rVid" placeholder="https://www.youtube.com/watch?v=..." oninput="prevVid(this.value)">
+          </div>
+          <div id="vidPrev" style="display:none;margin-top:7px">
+            <iframe id="vFrame" style="width:100%;aspect-ratio:16/9;border-radius:11px;border:none" allowfullscreen></iframe>
+          </div>
+        </div>
+        <div class="fg" style="margin-top:10px"><label>وصف (اختياري)</label><input id="rDesc" placeholder="وصف مختصر"></div>
+        <div style="display:flex;gap:9px">
+          <button class="btn btn-gold" onclick="addRes()">💾 حفظ المحتوى</button>
+          <button class="btn btn-ghost" onclick="document.getElementById('resFormArea').innerHTML=''">إلغاء</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function pickType(t){
+  document.querySelectorAll('.type-tile').forEach(x=>x.classList.remove('sel'));
+  document.getElementById('tile_'+t).classList.add('sel');
+  _upData.type=t; _uploadFile=null;
+  document.getElementById('upZone').style.display='block';
+  document.getElementById('fileArea').style.display='none';
+  document.getElementById('vidArea').style.display='none';
+  if(t==='video'){
+    document.getElementById('vidArea').style.display='block';
+  } else {
+    document.getElementById('fileArea').style.display='block';
+    const icons={pdf:'📄',image:'🖼',exercise:'✏️',other:'📎'};
+    const hints={pdf:'PDF حتى 900KB',image:'صورة حتى 900KB',exercise:'PDF أو صورة حتى 900KB',other:'ملف حتى 900KB'};
+    const accepts={pdf:'application/pdf',image:'image/*',exercise:'application/pdf,image/*',other:'*/*'};
+    document.getElementById('dzIco').textContent=icons[t]||'⬆️';
+    document.getElementById('dzHint').textContent=hints[t]||'أي ملف';
+    document.getElementById('fInp').accept=accepts[t]||'*/*';
+  }
+}
+function switchUpMode(mode){
+  document.getElementById('tabUpload').classList.toggle('on', mode==='upload');
+  document.getElementById('tabLink').classList.toggle('on', mode==='link');
+  document.getElementById('modeUpload').style.display = mode==='upload'?'block':'none';
+  document.getElementById('modeLink').style.display   = mode==='link'?'block':'none';
+  if(mode==='link'){ _uploadFile=null; }
+}
+
+function onDrop(e){ e.preventDefault(); document.getElementById('dzone').classList.remove('drag'); const f=e.dataTransfer.files[0]; if(f) procFile(f); }
+function onFilePick(inp){ if(inp.files[0]) procFile(inp.files[0]); }
+function procFile(file){
+  const maxMB=100;
+  if(file.size>maxMB*1024*1024) return toast(`الملف كبير جداً (الحد ${maxMB} ميغابايت)`,'e');
+  _uploadFile=file; _upData.name=file.name;
+  const tEl=document.getElementById('rT');
+  if(tEl&&!tEl.value.trim()) tEl.value=file.name.replace(/\.[^/.]+$/,'');
+  const prev=document.getElementById('fPrev'); prev.style.display='block';
+  if(file.type.startsWith('image/')){
+    const rd=new FileReader(); rd.onload=e=>{
+      prev.innerHTML=`<div style="position:relative;display:inline-block">
+        <img src="${e.target.result}" style="max-width:100%;max-height:200px;border-radius:10px;border:1px solid var(--border)">
+        <button onclick="clrUp()" style="position:absolute;top:5px;left:5px;background:rgba(0,0,0,.6);color:#fff;border:none;border-radius:50%;width:24px;height:24px;cursor:pointer;font-size:12px">✕</button>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:5px">📎 ${file.name} (${(file.size/1024).toFixed(0)} KB)</div>`;
+    }; rd.readAsDataURL(file);
+  } else {
+    prev.innerHTML=`<div style="display:flex;align-items:center;gap:10px;background:var(--cream);padding:12px 14px;border-radius:10px;border:1px solid var(--border)">
+      <span style="font-size:28px">${TICONS[_upData.type]||'📎'}</span>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:700;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${file.name}</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:2px">${(file.size/1024/1024).toFixed(2)} MB — جاهز للرفع إلى Firebase ✅</div>
+      </div>
+      <button onclick="clrUp()" class="btn btn-danger btn-sm">✕</button>
+    </div>`;
+  }
+  document.getElementById('dzLbl').textContent='تم اختيار الملف ✅ (انقر لتغييره)';
+}
+function clrUp(){ _uploadFile=null; _upData.url=''; _upData.name=''; document.getElementById('fPrev').style.display='none'; document.getElementById('fInp').value=''; document.getElementById('dzLbl').textContent='اسحب الملف هنا أو انقر للاختيار'; }
+
+function prevVid(url){
+  const em=ytEmbed(url); const prev=document.getElementById('vidPrev');
+  if(em){ document.getElementById('vFrame').src=em; prev.style.display='block'; _upData.url=em; }
+  else{ prev.style.display='none'; _upData.url=url; }
+}
+function ytEmbed(url){
+  try{
+    let m=url.match(/youtu\.be\/([^?&]+)/); if(m) return `https://www.youtube.com/embed/${m[1]}`;
+    m=url.match(/[?&]v=([^&]+)/); if(m) return `https://www.youtube.com/embed/${m[1]}`;
+    if(url.includes('youtube.com/embed/')) return url;
+  }catch(e){} return null;
+}
+
+async function addRes(){
+  const title=document.getElementById('rT')?.value.trim();
+  const subjectId=document.getElementById('rSub')?.value;
+  const desc=document.getElementById('rDesc')?.value.trim()||'';
+  const type=_upData.type;
+  if(!type) return toast('يرجى اختيار نوع المحتوى','e');
+  if(!title) return toast('يرجى كتابة عنوان','e');
+  if(!subjectId) return toast('يرجى اختيار المادة','e');
+
+  const saveBtn=document.querySelector('[onclick="addRes()"]');
+  if(saveBtn){saveBtn.disabled=true;saveBtn.textContent='⏳ جاري الحفظ...';}
+
+  // progress bar
+  let progEl=document.getElementById('upProg');
+  if(!progEl){
+    progEl=document.createElement('div');
+    progEl.id='upProg';
+    progEl.style.cssText='margin:10px 0;background:var(--cream);border-radius:8px;overflow:hidden;height:8px;border:1px solid var(--border)';
+    progEl.innerHTML='<div id="upBar" style="height:100%;width:5%;background:linear-gradient(90deg,var(--gold),var(--gold-light));transition:width .3s;border-radius:8px"></div>';
+    const descEl=document.getElementById('rDesc');
+    if(descEl) descEl.parentElement.after(progEl);
+  }
+  const bar=document.getElementById('upBar');
+
+  try{
+    let url='';
+
+    if(type==='video'){
+      url=document.getElementById('rVid')?.value.trim()||'';
+      url=ytEmbed(url)||url;
+      if(!url){
+        if(saveBtn){saveBtn.disabled=false;saveBtn.textContent='💾 حفظ المحتوى';}
+        return toast('يرجى إدخال رابط الفيديو','e');
+      }
+      if(bar) bar.style.width='80%';
+
+    } else if(_uploadFile){
+      const maxMB = 0.9;
+      if(_uploadFile.size > maxMB*1024*1024){
+        if(saveBtn){saveBtn.disabled=false;saveBtn.textContent='💾 حفظ المحتوى';}
+        if(progEl) progEl.remove();
+        return toast(`الملف كبير — استخدم تبويب "رابط خارجي"`,'e');
+      }
+      if(bar) bar.style.width='30%';
+      url = await new Promise((res,rej)=>{
+        const rd=new FileReader();
+        rd.onload=e=>res(e.target.result);
+        rd.onerror=rej;
+        rd.readAsDataURL(_uploadFile);
+      });
+      if(bar) bar.style.width='80%';
+
+    } else {
+      // check external link
+      const extLink = document.getElementById('rExtLink')?.value.trim();
+      if(extLink){
+        url = extLink;
+        if(bar) bar.style.width='80%';
+      } else {
+        if(saveBtn){saveBtn.disabled=false;saveBtn.textContent='💾 حفظ المحتوى';}
+        return toast('يرجى رفع ملف أو إدخال رابط خارجي','e');
+      }
+    }
+
+    if(bar) bar.style.width='90%';
+    const id='r'+Date.now();
+    await fset('resources',id,{
+      id,title,subjectId,type,url,
+      storagePath:'',
+      fileName:_upData.name||'',
+      desc,uploadedAt:Date.now()
+    });
+
+    if(bar) bar.style.width='100%';
+    _uploadFile=null; _upData={type:'',url:'',name:''};
+    toast('تمت إضافة المحتوى ✅','s');
+    setTimeout(()=>nav('ownerResources'),400);
+
+  }catch(e){
+    if(saveBtn){saveBtn.disabled=false;saveBtn.textContent='💾 حفظ المحتوى';}
+    if(progEl) progEl.remove();
+    toast('فشل: '+e.message,'e');
+    console.error(e);
+  }
+}
+
+async function delRes(id){
+  if(!confirm('حذف هذا المحتوى؟')) return;
+  ld('جاري الحذف...');
+  try{
+    await fdel('resources',id);
+    uld(); nav('ownerResources'); toast('تم الحذف');
+  }catch(e){ uld(); toast('فشل: '+e.message,'e'); }
+}
+
+// ══════════════════════════════════════════
+//  OWNER — ANNOUNCEMENTS
+// ══════════════════════════════════════════
+function pgOwnerAnn(){
+  document.getElementById('tbActions').innerHTML=`<button class="btn btn-gold" onclick="showAnnForm()">+ إضافة إعلان</button>`;
+  return `<div class="pg on">
+    <div id="annFA"></div>
+    <div style="max-width:680px">
+      ${DB.announcements.slice().reverse().map(a=>`
+        <div style="background:#fff;border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:14px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
+            <h3 style="font-size:15px;font-weight:700">${a.title}</h3>
+            <button class="btn btn-danger btn-sm" onclick="delAnn('${a.id}')">🗑</button>
+          </div>
+          <p style="font-size:13px;color:#555;line-height:1.8">${a.body}</p>
+        </div>`).join('')||'<div class="es"><div class="ei">📢</div><h3>لا توجد إعلانات</h3></div>'}
+    </div>
+  </div>`;
+}
+function showAnnForm(){
+  document.getElementById('annFA').innerHTML=`
+    <div class="iform">
+      <h3>إضافة إعلان</h3>
+      <div class="fg"><label>العنوان</label><input id="aT" placeholder="مثال: موعد الامتحان"></div>
+      <div class="fg"><label>النص</label><textarea id="aB" placeholder="تفاصيل الإعلان..."></textarea></div>
+      <div style="display:flex;gap:9px">
+        <button class="btn btn-gold" onclick="addAnn()">نشر</button>
+        <button class="btn btn-ghost" onclick="document.getElementById('annFA').innerHTML=''">إلغاء</button>
+      </div>
+    </div>`;
+}
+async function addAnn(){
+  const title=document.getElementById('aT').value.trim();
+  const body=document.getElementById('aB').value.trim();
+  if(!title||!body) return toast('يرجى ملء جميع الحقول','e');
+  ld('جاري النشر...');
+  try{
+    const id='a'+Date.now();
+    await fset('announcements',id,{id,title,body,createdAt:Date.now()});
+    uld(); nav('ownerAnn'); toast('تم نشر الإعلان ✅','s');
+  }catch(e){ uld(); toast('فشل: '+e.message,'e'); }
+}
+async function delAnn(id){
+  ld('جاري الحذف...');
+  try{ await fdel('announcements',id); uld(); nav('ownerAnn'); toast('تم حذف الإعلان'); }
+  catch(e){ uld(); toast('فشل: '+e.message,'e'); }
+}
+
+// ══════════════════════════════════════════
+//  STUDENT PAGES
+// ══════════════════════════════════════════
+function pgStudentSubjects(){
+  const subs=DB.subjects.filter(s=>s.spec===CU.spec&&s.level===CU.level&&s.semester===CU.semester);
+  const ann=DB.announcements.slice(-1)[0];
+  return `<div class="pg on">
+    ${ann?`<div class="alert as">📢 <strong>${ann.title}</strong> — ${(ann.body||'').substring(0,55)}...
+      <button class="btn btn-outline btn-sm" style="margin-right:auto" onclick="nav('studentAnn')">عرض</button></div>`:''}
+    <div class="sh"><h3>مواد ${CU.level} / ${CU.semester}</h3></div>
+    <div class="cgrid">
+      ${subs.map(s=>{
+        const res=DB.resources.filter(r=>r.subjectId===s.id);
+        return `<div class="scrd" onclick="nav('studentSubjectView','${s.id}')">
+          <div class="stripe stripe-${s.color}" style="margin:-22px -22px 16px;height:4px;border-radius:12px 12px 0 0"></div>
+          <div class="sic">${s.icon}</div>
+          <h3>${s.name}</h3>
+          <p>${s.desc||''}</p>
+          <div class="sstats">
+            <div class="sst"><span>${res.filter(r=>r.type==='video').length}</span><small>فيديو</small></div>
+            <div class="sst"><span>${res.filter(r=>r.type==='pdf'||r.type==='exercise').length}</span><small>وثيقة</small></div>
+            <div class="sst"><span>${res.length}</span><small>مجموع</small></div>
+          </div>
+        </div>`;
+      }).join('')||`<div class="es" style="grid-column:1/-1"><div class="ei">📚</div><h3>لا توجد مواد بعد لـ ${CU.level} / ${CU.semester}</h3><p>ستظهر هنا عند إضافتها من الإدارة</p></div>`}
+    </div>
+  </div>`;
+}
+
+function pgStudentSubjectView(sid){
+  const sub=DB.subjects.find(s=>s.id===sid);
+  if(!sub) return `<div class="pg on"><div class="es">المادة غير موجودة</div></div>`;
+  const res=DB.resources.filter(r=>r.subjectId===sid);
+  const videos=res.filter(r=>r.type==='video');
+  const pdfs=res.filter(r=>r.type==='pdf');
+  const exs=res.filter(r=>r.type==='exercise');
+  const imgs=res.filter(r=>r.type==='image');
+  const others=res.filter(r=>r.type==='other');
+  _ivImgs=imgs; _ivIdx=0;
+
+  function vidSec(){
+    if(!videos.length) return '';
+    return `<div style="margin-bottom:32px">
+      <div class="sh"><h3>🎬 فيديوهات الشرح (${videos.length})</h3></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px">
+        ${videos.map(r=>`<div style="background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden">
+          <iframe src="${r.url}" style="width:100%;aspect-ratio:16/9;border:none;display:block" allowfullscreen loading="lazy" allow="autoplay; fullscreen"></iframe>
+          <div style="padding:12px 14px">
+            <div style="font-size:13px;font-weight:700">${r.title}</div>
+            ${r.desc?`<div style="font-size:11px;color:var(--muted);margin-top:2px">${r.desc}</div>`:''}
+            <a href="${r.url}" target="_blank" class="btn btn-outline btn-sm" style="margin-top:10px;font-size:11px">📱 فتح في المتصفح</a>
+          </div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  function imgSec(){
+    if(!imgs.length) return '';
+    return `<div style="margin-bottom:32px">
+      <div class="sh"><h3>🖼 الصور التوضيحية (${imgs.length})</h3></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px">
+        ${imgs.map((r,i)=>`<div style="background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer" onclick="openIV(${i})">
+          <img src="${r.url}" alt="${r.title}" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block">
+          <div style="padding:10px 12px"><div style="font-size:12px;font-weight:700">${r.title}</div></div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  function gdDirect(url){
+    // تحويل رابط Google Drive للتحميل المباشر
+    const m1=url.match(/\/file\/d\/([^/]+)/);
+    if(m1) return 'https://drive.google.com/uc?export=download&id='+m1[1];
+    const m2=url.match(/[?&]id=([^&]+)/);
+    if(m2) return 'https://drive.google.com/uc?export=download&id='+m2[1];
+    return url;
+  }
+  function isGD(url){ return url&&url.includes('drive.google.com'); }
+
+  function fileSec(items,title,icon){
+    if(!items.length) return '';
+    return `<div style="margin-bottom:32px">
+      <div class="sh"><h3>${icon} ${title} (${items.length})</h3></div>
+      <div class="tw"><ul class="rlist">
+        ${items.map(r=>`<li class="ri">
+          <span class="ric">${TICONS[r.type]||'📎'}</span>
+          <div class="rinfo">
+            <div class="rname">${r.title}</div>
+            ${r.desc?`<div class="rsub">${r.desc}</div>`:''}
+          </div>
+          <div style="display:flex;gap:7px;flex-shrink:0;flex-wrap:wrap">
+            ${r.url&&r.url.startsWith('http')?`
+              <a href="${isGD(r.url)?gdDirect(r.url):r.url}" target="_blank" class="btn btn-gold btn-sm" ${isGD(r.url)?'download':''}>⬇️ تحميل</a>
+              ${isGD(r.url)?`<a href="${r.url}" target="_blank" class="btn btn-outline btn-sm">🔗 فتح</a>`:''}
+            `:''}
+          </div>
+        </li>`).join('')}
+      </ul></div>
+    </div>`;
+  }
+
+  return `<div class="pg on">
+    <button class="back" onclick="nav('studentSubjects')">← العودة إلى موادي</button>
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:26px">
+      <div class="ci ${sub.color}" style="width:56px;height:56px;font-size:28px">${sub.icon}</div>
+      <div>
+        <h2 style="font-size:20px;font-weight:800;margin-bottom:5px">${sub.name}</h2>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:3px">
+          <span class="lbdg">${sub.level}</span><span class="sembdg">${sub.semester}</span>
+        </div>
+        <p style="font-size:12px;color:var(--muted)">${sub.desc||''} — ${res.length} ملف</p>
+      </div>
+    </div>
+    ${!res.length?`<div class="es"><div class="ei">📂</div><h3>لا يوجد محتوى بعد</h3><p>سيقوم المالك بإضافة الدروس قريباً</p></div>`:''}
+    ${vidSec()}
+    ${imgSec()}
+    ${fileSec(pdfs,'الوثائق PDF','📄')}
+    ${fileSec(exs,'التمارين','✏️')}
+    ${fileSec(others,'ملفات أخرى','📎')}
+  </div>`;
+}
+
+// ══════════════════════════════════════════
+//  STUDENT — LOCKED (platform not launched)
+// ══════════════════════════════════════════
+function pgStudentLocked(){
+  return `<div class="pg on" style="display:flex;align-items:center;justify-content:center;min-height:70vh">
+    <div style="text-align:center;max-width:420px;padding:40px 24px">
+      <div style="font-size:72px;margin-bottom:20px">🔒</div>
+      <h2 style="font-size:22px;font-weight:800;margin-bottom:12px;color:var(--ink)">المنصة لم تُطلق بعد</h2>
+      <p style="font-size:13px;color:var(--muted);line-height:1.9;margin-bottom:28px">
+        تم تسجيل حسابك بنجاح 🎓<br>
+        المحتوى سيكون متاحاً فور إطلاق المنصة من قِبَل المالك.<br>
+        شكراً لصبرك!
+      </p>
+      <button class="btn btn-danger" style="margin:0 auto" onclick="doLogout()">🚪 تسجيل الخروج</button>
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════
+//  OWNER — TOGGLE PLATFORM LAUNCH
+// ══════════════════════════════════════════
+async function resetOldData(){
+  if(!confirm('سيتم حذف جميع الطلاب والمواد القديمة. هل أنت متأكد؟')) return;
+  ld('جاري الحذف...');
+  try{
+    await Promise.all([
+      ...DB.users.filter(u=>u.role==='student').map(u=>fdel('users',u.id)),
+      ...DB.subjects.map(s=>fdel('subjects',s.id)),
+      ...DB.resources.map(r=>fdel('resources',r.id)),
+    ]);
+    await loadAll();
+    uld(); toast('تم مسح جميع البيانات القديمة ✅','s'); nav('ownerDash');
+  }catch(e){ uld(); toast('فشل: '+e.message,'e'); }
+}
+  const newVal = !_platformLaunched;
+  ld('جاري التحديث...');
+  try{
+    await fset('settings','platform',{launched:newVal});
+    _platformLaunched = newVal;
+    uld();
+    toast(newVal ? '🚀 تم إطلاق المنصة — الطلاب يستطيعون الدخول الآن' : '🔒 تم قفل المنصة — الطلاب لن يروا أي محتوى','s');
+    nav('ownerDash');
+  }catch(e){ uld(); toast('خطأ: '+e.message,'e'); }
+}
+
+function pgStudentAnn(){
+  return `<div class="pg on">
+    <div style="max-width:680px">
+      ${DB.announcements.slice().reverse().map(a=>`
+        <div style="background:#fff;border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:14px">
+          <div class="ptag">📢 إعلان</div>
+          <h3 style="font-size:15px;font-weight:700;margin-bottom:9px">${a.title}</h3>
+          <p style="font-size:13px;color:#555;line-height:1.8">${a.body}</p>
+        </div>`).join('')||'<div class="es"><div class="ei">📢</div><h3>لا توجد إعلانات</h3></div>'}
+    </div>
+  </div>`;
+}
+
+function pgStudentProfile(){
+  const u=CU;
+  return `<div class="pg on"><div style="max-width:460px">
+    <div style="background:#fff;border:1px solid var(--border);border-radius:18px;padding:28px;margin-bottom:18px">
+      <div style="text-align:center;margin-bottom:22px">
+        <div class="av" style="width:68px;height:68px;font-size:26px;margin:0 auto 10px">${u.name[0]}</div>
+        <h2 style="font-size:18px;font-weight:800;margin-bottom:7px">${u.name}</h2>
+      </div>
+      <div style="border-top:1px solid var(--border);padding-top:18px">
+        <div class="fg"><label>البريد الإلكتروني</label><input value="${u.email}" readonly style="background:var(--cream)"></div>
+        <div class="fg"><label>رقم الهاتف</label><input value="${u.phone||'—'}" readonly style="background:var(--cream)"></div>
+        <div class="fg"><label>التخصص</label><input value="${u.spec||'—'}" readonly style="background:var(--cream)"></div>
+        <div class="frow">
+          <div class="fg"><label>المستوى</label><input value="${u.level||'—'}" readonly style="background:var(--cream)"></div>
+          <div class="fg"><label>الفصل</label><input value="${u.semester||'—'}" readonly style="background:var(--cream)"></div>
+        </div>
+        <div class="fg"><label>عدد موادي</label><input value="${DB.subjects.filter(s=>s.level===u.level&&s.semester===u.semester).length} مادة" readonly style="background:var(--cream)"></div>
+      </div>
+    </div>
+    <button class="btn btn-danger" style="width:100%;justify-content:center" onclick="doLogout()">تسجيل الخروج</button>
+  </div></div>`;
+}
+
+// ══════════════════════════════════════════
+//  IMAGE VIEWER
+// ══════════════════════════════════════════
+function openIV(i){ _ivIdx=i; showIV(); document.getElementById('iv').classList.add('on'); }
+function closeIV(){ document.getElementById('iv').classList.remove('on'); }
+function ivNav(d){ _ivIdx=(_ivIdx+d+_ivImgs.length)%_ivImgs.length; showIV(); }
+function showIV(){ const r=_ivImgs[_ivIdx]; if(!r) return; document.getElementById('ivImg').src=r.url; document.getElementById('ivCap').textContent=r.title+(r.desc?' — '+r.desc:''); }
+
+// ══════════════════════════════════════════
+//  BOOT
+// ══════════════════════════════════════════
+(async()=>{
+  ld('جاري تهيئة المنصة...');
+  try{
+    // ensure owner doc exists
+    const od=await getDoc(doc(db,'users','owner'));
+    // owner credentials stored encoded — not readable in plain text
+    const _oe = atob('bWVkbm91aEBudWtoYmEuY29t');
+    const _op = atob('VW5lbTIwMjY=');
+    if(!od.exists()) await fset('users','owner',{id:'owner',name:'المالك',email:_oe,pass:_op,role:'owner',status:'approved',phone:'',level:'',semester:'',createdAt:Date.now()});
+    await loadAll();
+    const sid=localStorage.getItem('nk_sid');
+    if(sid){ const u=DB.users.find(u=>u.id===sid); if(u){ CU=u; uld(); initApp(); return; } }
+    uld();
+  }catch(e){
+    uld();
+    const w=document.createElement('div');
+    w.style.cssText='position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#c0392b;color:#fff;padding:13px 22px;border-radius:11px;font-size:12px;z-index:9999;text-align:center;line-height:1.7';
+    w.innerHTML='⚠️ خطأ في الاتصال بـ Firebase<br><small>'+e.message+'</small>';
+    document.body.appendChild(w);
+  }
+})();
+
+// expose to HTML
+Object.assign(window,{
+  openM,closeM,sw,doLogin,doRegister,doLogout,
+  pickLv,pickSm,pickSpec,nav,
+  sflv,sfsm,
+  showSubForm,updSmOpts,pickSubSpec,addSub,delSub,filtSub,
+  showResForm,pickType,switchUpMode,onDrop,onFilePick,clrUp,prevVid,addRes,delRes,filtRes,
+  showAnnForm,addAnn,delAnn,
+  openIV,closeIV,ivNav,
+  toggleLaunch, resetOldData,
+  toggleSB(){ 
+    const sb=document.getElementById('sidebar');
+    const ov=document.getElementById('sbOverlay');
+    if(sb) sb.classList.toggle('open');
+    if(ov) ov.classList.toggle('on');
+  },
+  closeSB(){ 
+    const sb=document.getElementById('sidebar');
+    const ov=document.getElementById('sbOverlay');
+    if(sb) sb.classList.remove('open');
+    if(ov) ov.classList.remove('on');
+  },
+});
+</script>
+</body>
+</html>
